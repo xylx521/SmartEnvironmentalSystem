@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "adc_driver.h"
 #include <stdio.h>
+#include "filter.h"  
 
 /* USER CODE END Includes */
 
@@ -107,20 +108,30 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  
-    // LED闪烁测试
+//    // LED闪烁测试
 //    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);   // 点亮LED
-//    HAL_Delay(500);                                        // 延时500ms
+//    HAL_Delay(2000);                                        // 延时500ms
 //    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET); // 熄灭LED
-//    HAL_Delay(500);                                        // 延时500ms
+//    HAL_Delay(2000);                                        // 延时500ms
+//	  
+//    // LED闪烁 (保持原来的测试)
+////    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+//    
+//    // 读取所有传感器
+//    ADC_ReadAllSensors(&adc_raw);
+//    
+//    // 转换为PPM浓度
+//    ADC_ConvertToPPM(&adc_raw, &sensor_data);
 	  
-    // LED闪烁 (保持原来的测试)
-//    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
     
-    // 读取所有传感器
-    ADC_ReadAllSensors(&adc_raw);
+    // 使用带滤波的读取函数
+    ADC_ReadAllSensors_Filtered(&adc_raw);
     
-    // 转换为PPM浓度
+    // 转换为PPM
     ADC_ConvertToPPM(&adc_raw, &sensor_data);
+    
+    HAL_Delay(100);  // 改为100ms采样一次（更快）
     
     // 打印调试信息 (需要配置串口才能看到，暂时先存储数据)
     // sprintf(uart_buffer, "MQ4:%d MQ2:%d MQ7:%d\r\n", 

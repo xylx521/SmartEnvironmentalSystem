@@ -10,6 +10,16 @@
 #include "adc_driver.h"
 #include "adc.h"
 #include <math.h>
+#include "filter.h"
+
+/* 滤波器实例 */
+MovingAvgFilter_t mq4_ma_filter;
+MovingAvgFilter_t mq2_ma_filter;
+MovingAvgFilter_t mq7_ma_filter;
+
+MedianFilter_t mq4_median_filter;
+MedianFilter_t mq2_median_filter;
+MedianFilter_t mq7_median_filter;
 
 /* 外部ADC句柄 (由CubeMX生成在adc.c中) */
 extern ADC_HandleTypeDef hadc1;
@@ -36,6 +46,15 @@ void ADC_Driver_Init(void)
     
     /* 启动ADC */
     HAL_ADC_Start(&hadc1);
+    /* 初始化滤波器 */
+    MovingAvg_Init(&mq4_ma_filter);
+    MovingAvg_Init(&mq2_ma_filter);
+    MovingAvg_Init(&mq7_ma_filter);
+    
+    Median_Init(&mq4_median_filter);
+    Median_Init(&mq2_median_filter);
+    Median_Init(&mq7_median_filter);
+	
 }
 
 /**
@@ -134,4 +153,24 @@ void ADC_ConvertToPPM(ADC_RawData_t *raw_data, SensorData_t *sensor_data)
     {
         sensor_data->mq7_ppm = 0.0f;
     }
+}
+
+/**
+  * @brief  读取所有传感器并滤波
+  * @param  raw_data: 滤波后的数据
+  * @retval None
+  */
+void ADC_ReadAllSensors_Filtered(ADC_RawData_t *raw_data)
+{
+    uint16_t mq4_raw, mq2_raw, mq7_raw;
+    
+    /* 读取原始ADC值 */
+    mq4_raw = ADC_ReadSingleChannel(SENSOR_MQ4);
+    mq2_raw = ADC_ReadSingleChannel(SENSOR_MQ2);
+    mq7_raw = ADC_ReadSingleChannel(SENSOR_MQ7);
+    
+    /* 组合滤波 */
+    raw_data->mq4_raw = Hybrid_Filter(mq4_raw, &mq4_ma_filter, &mq4_median_filter);
+    raw_data->mq2_raw = Hybrid_Filter(mq2_raw, &mq2_ma_filter, &mq2_median_filter);
+    raw_data->mq7_raw = Hybrid_Filter(mq7_raw, &mq7_ma_filter, &mq7_median_filter);
 }
