@@ -108,22 +108,23 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  
-//    // LED闪烁测试
-//    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);   // 点亮LED
-//    HAL_Delay(2000);                                        // 延时500ms
-//    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET); // 熄灭LED
-//    HAL_Delay(2000);                                        // 延时500ms
+////    // LED闪烁测试
+////    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);   // 点亮LED
+////    HAL_Delay(2000);                                        // 延时500ms
+////    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET); // 熄灭LED
+////    HAL_Delay(2000);                                        // 延时500ms
 //	  
 //    // LED闪烁 (保持原来的测试)
-////    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+//    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 //    
 //    // 读取所有传感器
 //    ADC_ReadAllSensors(&adc_raw);
 //    
 //    // 转换为PPM浓度
 //    ADC_ConvertToPPM(&adc_raw, &sensor_data);
+//	  HAL_Delay(1000);  // 1秒采集一次
 	  
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+//    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);		//翻转 GPIO 引脚的状态
     
     // 使用带滤波的读取函数
     ADC_ReadAllSensors_Filtered(&adc_raw);
@@ -137,7 +138,6 @@ int main(void)
     // sprintf(uart_buffer, "MQ4:%d MQ2:%d MQ7:%d\r\n", 
     //         adc_raw.mq4_raw, adc_raw.mq2_raw, adc_raw.mq7_raw);
     
-    HAL_Delay(1000);  // 1秒采集一次
   }
   /* USER CODE END 3 */
 }

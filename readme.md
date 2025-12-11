@@ -409,7 +409,7 @@ cd SmartEnvironmentalSystem
 
 ## 📊 项目统计
 
-![GitHub stars](https://img.shields.io/github/stars/your-username/SmartVentilation?style=social) ![GitHub forks](https://img.shields.io/github/forks/your-username/SmartVentilation?style=social) ![GitHub issues](https://img.shields.io/github/issues/your-username/SmartVentilation) ![GitHub license](https://img.shields.io/github/license/your-username/SmartVentilation)
+![GitHub stars](https://img.shields.io/github/stars/xylx521/SmartEnvironmentalSystem?style=social) ![GitHub forks](https://img.shields.io/github/forks/xylx521/SmartEnvironmentalSystem?style=social) ![GitHub issues](https://img.shields.io/github/issues/xylx521/SmartEnvironmentalSystem) ![GitHub license](https://img.shields.io/github/license/xylx521/SmartEnvironmentalSystem)
 
 ------
 
